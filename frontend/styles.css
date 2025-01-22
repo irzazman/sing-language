@@ -1,0 +1,41 @@
+/* styles.css */
+
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+video {
+    border: 2px solid #333;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+canvas {
+    display: none; /* Hide the canvas as it's used for processing */
+}
+
+#prediction {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #007BFF; /* Bootstrap primary color */
+    font-weight: bold;
+    text-align: center;
+}

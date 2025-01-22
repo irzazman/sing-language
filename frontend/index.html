@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Prediction</title>
+    <style>
+        /* Add your styles here */
+    </style>
+</head>
+<body>
+    <h1>Sign Language Prediction</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    <div id="prediction" style="font-size: 24px; margin-top: 20px;"></div> 
+    <script>
+        // Access webcam and draw video feed
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            });
+
+        // Function to capture frames and send to server
+        function captureFrame() {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the canvas to a Blob
+            canvas.toBlob(async (blob) => {
+                // Create a FormData object to send the image
+                const formData = new FormData();
+                formData.append('image', blob, 'frame.jpg'); // Append the image blob
+
+                 try {
+                    // Send the image to the server for prediction
+                    const response = await fetch('/predict', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    // Handle the response from the server
+                    const result = await response.json();
+                    console.log(result); // Log the prediction result
+
+                    // Display the predicted word on the webpage
+                    const predictionDisplay = document.getElementById('prediction');
+                    if (result.predicted_word) {
+                        predictionDisplay.innerText = `Predicted Word: ${result.predicted_word}`;
+                    } else {
+                        predictionDisplay.innerText = result.message; // Show collecting frames message
+                    }
+                } catch (error) {
+                    console.error('Error sending frame to server:', error);
+                }
+            }, 'image/jpeg'); // Specify the image format
+        }
+
+        // Capture frame every 100ms
+        setInterval(captureFrame, 100);
+    </script>
+</body>
+</html>
