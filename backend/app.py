@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import cv2
 import mediapipe as mp
 import numpy as np
-from function import mediapipe_detection, draw_styled_landmarks, extract_keypoints
+from backend.function import mediapipe_detection, draw_styled_landmarks, extract_keypoints
 from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
