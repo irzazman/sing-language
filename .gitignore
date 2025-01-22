@@ -1,0 +1,15 @@
+# Python cache files
+*.pyc
+__pycache__/
+
+# Environment folders
+env/
+venv/
+
+# Model files
+*.h5
+*.tflite
+
+# OS-specific files
+.DS_Store
+Thumbs.db
